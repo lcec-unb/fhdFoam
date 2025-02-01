@@ -48,7 +48,7 @@ First, clone this repository in your local folder by typing:
 
 `git clone https://github.com/rafaelgabler/fhdFoam.git` 
 
-Then, you must compile the solvers of the project. For this purpose you should enter inside the openfoam bash and in the main folder of the project type:
+Then, you must compile the project's solvers. For this purpose you should enter inside the openfoam bash and in the main folder of the project type:
 
 ` ./install.sh`
 
@@ -62,7 +62,7 @@ After installing all the python packages and pre-requisites to use **fhdFoam** y
 
 `./fhdFoam.sh`
 
-Then, you just need to answer the questions that will appear on the windows in order to configure and run a given simulation.
+You need to be inside the openFoam bash  to successfully use the graphical user interface. After calling the **fhdFoam.sh** bash script, you just need to answer the questions that will appear on the windows in order to configure and run a given simulation.
 
 ## Running the simulations manually
 
