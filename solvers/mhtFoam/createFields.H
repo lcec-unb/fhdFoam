@@ -180,6 +180,9 @@ dimensionedScalar zero("zero", dimensionSet(0,0,-1,0,0,0,0),0);
 // Creating a unit scalar with dimension of temperature	
 dimensionedScalar T1("T1", dimensionSet(0,0,0,1,0,0,0), 1);
 
+// Time interval to compute w field (to decrease computational cost)
+dimensionedScalar winterval("winterval", dimless, mhtQuantities);
+
 //
 #include "createPhi.H"
 

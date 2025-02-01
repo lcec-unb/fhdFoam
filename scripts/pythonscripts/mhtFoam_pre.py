@@ -910,5 +910,3 @@ zaragui = app # Inicialização
 zaragui.interface()
 
 root_1.mainloop()
-
-

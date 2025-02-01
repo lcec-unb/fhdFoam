@@ -55,6 +55,8 @@ Description
 
 \*---------------------------------------------------------------------------*/
 
+scalar tolerancia = 1.0e-06;
+
 #include "fvCFD.H"
 #include "fvOptions.H"
 #include "simpleControl.H"
@@ -79,16 +81,19 @@ int main(int argc, char *argv[])
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nCalculating scalar transport\n" << endl;
-   
+    int winteger = winterval.value(); 
     #include "CourantNo.H"
      while (simple.loop())
     {
        
         Info<< "Time = " << runTime.timeName() << nl << endl;
 	
+    int tempoint = floor(runTime.value());
+     if ((tempoint % winteger == 0) && (runTime.value()-tempoint <= tolerancia) ) { 
 	Info<< "\nCalculating W field\n" << endl;
 	#include "Weqn.H"
-	
+    }
+
 	// Calculating the correction factor field
 	
 	fvScalarMatrix CORREqn
