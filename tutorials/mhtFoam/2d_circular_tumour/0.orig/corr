@@ -43,9 +43,9 @@ internalField #codeStream
         const IOdictionary& d = static_cast<const IOdictionary&>(dict);
         const fvMesh& mesh = refCast<const fvMesh>(d.db());
         scalarField corr(mesh.nCells(), 0.);
-        scalar radius_mag = 0.00287;
+        const scalar pi = 3.141592653589793;
 	//######################### Aqui entra com as informações do fluido magnético (raio e posições)
- 
+  
 	// ################################
         forAll(corr, i)
         {
@@ -54,6 +54,9 @@ internalField #codeStream
                 const scalar z = mesh.C()[i][2];
                 
         //###################### Aqui define as regiões circulares do fluido magnético dentro dos tumores
+
+
+
 
         //#########################################
 

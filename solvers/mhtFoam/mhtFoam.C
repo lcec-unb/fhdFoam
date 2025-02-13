@@ -55,8 +55,6 @@ Description
 
 \*---------------------------------------------------------------------------*/
 
-scalar tolerancia = 1.0e-06;
-
 #include "fvCFD.H"
 #include "fvOptions.H"
 #include "simpleControl.H"
@@ -89,7 +87,7 @@ int main(int argc, char *argv[])
         Info<< "Time = " << runTime.timeName() << nl << endl;
 	
     int tempoint = floor(runTime.value());
-     if ((tempoint % winteger == 0) && (runTime.value()-tempoint <= tolerancia) ) { 
+     if ((tempoint % winteger == 0) && (runTime.value()-tempoint <= 1.0e-06) ) { 
 	Info<< "\nCalculating W field\n" << endl;
 	#include "Weqn.H"
     }

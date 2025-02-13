@@ -28,5 +28,5 @@ cp1		    3.871e+03;	// Healthy tissue specific heat
 cp2		    3.54e+03;	// Tumour tissue specific heat
 cb		    4.18e+03;	// Blood specific heat
 Tb		    3.10e+02;	// Arterial blood temperature
-winterval   2.00e+00    // Time-step to calculate w field
+winterval   2.00e+00;    // Time-step to calculate w field
 // *************************************************************************//
