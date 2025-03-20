@@ -74,13 +74,17 @@ Bellow we show the mesh used for the 3D cavity problem associated with thermomag
 
 <img src="figs/convection1.png" width="400" height="200">
 
-Here we may see a partial obstruction of the flow in the region of action of the magnetic field.
+Here we may see a partial obstruction of the flow in the region of action of the magnetic field. These results are published in Ref [3].
 
 <div class="figure-center"> <img src="figs/convection2.png" width="300" height="420" /> </div> 
 
 Bellow we can see the vortex induced by the motion of a magnetic drop being carried by the action of an external magnetic field in a simulation performed with intermagFoam.
 
 <div class="figure-center"> <img src="figs/intermag1.png" width="450" height="300" /> </div> 
+
+Bellow we show the temperature evolution at the center of a 5mm spherical tumour subjected to magnetic hyperthermia using our mhtFoam solver. Comparisons are made with the experimental data of Ref[6].
+
+<div class="figure-center"> <img src="figs/mhtFoam_validation.png" width="400" height="350" /> </div> 
 
 ## References
 
@@ -93,3 +97,5 @@ Bellow we can see the vortex induced by the motion of a magnetic drop being carr
 [4] Cunha, Lucas HP, et al. "A numerical study on heat transfer of a ferrofluid flow in a square cavity under simultaneous gravitational and magnetic convection." Theoretical and Computational Fluid Dynamics 34.1 (2020): 119-132. [DOI: 10.1007/s00162-020-00515-1](https://doi.org/10.1007/s00162-020-00515-1).
 
 [5] de Carvalho, Douglas Daniel, and Rafael Gabler Gontijo. "Magnetization diffusion in duct flow: The magnetic entrance length and the interplay between hydrodynamic and magnetic timescales." Physics of Fluids 32.7 (2020). [DOI: 10.1063/5.0011916](https://doi.org/10.1063/5.0011916). 
+
+ [6] Salloum, Maher, Ronghui Ma, and Liang Zhu. "An in-vivo experimental study of temperature elevations in animal tissue during magnetic nanoparticle hyperthermia." International Journal of Hyperthermia 24.7 (2008): 589-601. [DOI: 10.1080/02656730802203377](https://doi.org/10.1080/02656730802203377).
