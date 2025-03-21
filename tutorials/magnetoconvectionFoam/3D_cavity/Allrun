@@ -1,0 +1,34 @@
+#!/bin/sh
+#------------------------------------------------------------------------------
+# =========                 |
+# \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+#  \\    /   O peration     |
+#   \\  /    A nd           | www.openfoam.com
+#    \\/     M anipulation  |
+#------------------------------------------------------------------------------
+#     Copyright (C) 2011-2016 OpenFOAM Foundation
+#     Copyright (C) 2017-2021 OpenCFD Ltd.
+#------------------------------------------------------------------------------
+# License
+#     This file is part of OpenFOAM, distributed under GPL-3.0-or-later.
+#
+# Script
+#     Allrun
+#
+# Description
+#     Run the validation case of siqueira 2020
+#
+#------------------------------------------------------------------------------
+cd ${0%/*} || exit
+. $WM_PROJECT_DIR/bin/tools/RunFunctions  
+
+cp -R 0.orig 0
+
+runApplication blockMesh
+
+runApplication decomposePar
+runParallel $(getApplication)
+runApplication reconstructPar
+#rm -rf processor*
+#------------------------------------------------------------------------------
+
