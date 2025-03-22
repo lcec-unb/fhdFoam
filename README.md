@@ -78,6 +78,10 @@ Here we may see a partial obstruction of the flow in the region of action of the
 
 <div class="figure-center"> <img src="figs/convection2.png" width="300" height="420" /> </div> 
 
+In order to validate the magnetoconvectionFoam we have considered the benchmark proposed by Ref [4]. Bellow you may see the streamtraces for a magnetic Rayleigh number $Ra_m = 10^5$ for this validation scenario.
+
+<div class="figure-center"> <img src="figs/magnetoconv_ram105.png" width="300" height="300" /> </div> 
+
 Bellow we can see the vortex induced by the motion of a magnetic drop being carried by the action of an external magnetic field in a simulation performed with intermagFoam.
 
 <div class="figure-center"> <img src="figs/intermag1.png" width="450" height="300" /> </div> 
