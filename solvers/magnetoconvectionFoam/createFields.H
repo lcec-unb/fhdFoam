@@ -142,12 +142,11 @@ volVectorField H
     mesh
 );
 
-
-IOdictionary magneticQuantities
+IOdictionary magneticProperties
 (
     IOobject
     (
-        "magneticQuantities",
+        "magneticProperties",
         runTime.constant(),
         mesh,
         IOobject::MUST_READ_IF_MODIFIED,
@@ -155,17 +154,24 @@ IOdictionary magneticQuantities
     )
 );
 
+// Create the H model from the dictionary "HProperties"
+autoPtr<HModel> HPtr = HModel::New(magneticProperties, mesh);
+
+// Update the field H:
+HPtr->H(H);
+volScalarField    H2over2 = pow(mag(H),2)/2;
+
 dimensionedScalar mu0("mu0", dimensionSet(1,1,-2,0,0,-2,0), 1.256e-6); 
 
 // Pyromagnetic coefficient [1/K]
-dimensionedScalar beta_m("beta_m", dimless/dimTemperature, magneticQuantities);
+dimensionedScalar beta_m("beta_m", dimless/dimTemperature, magneticProperties);
 
 // Reference susceptibility 
-dimensionedScalar chi0("chi0", dimless, magneticQuantities);
+dimensionedScalar chi0("chi0", dimless, magneticProperties);
 
 // Maximum applied field
-dimensionedScalar Hmax("Hmax", dimensionSet(0,-1,0,0,0,1,0), magneticQuantities);
+dimensionedScalar Hmax("Hmax", dimensionSet(0,-1,0,0,0,1,0), magneticProperties);
 
 // Magnet height
-dimensionedScalar mag_height("mag_height", dimensionSet(0,1,0,0,0,0,0), magneticQuantities);
+dimensionedScalar mag_height("mag_height", dimensionSet(0,1,0,0,0,0,0), magneticProperties);
 
