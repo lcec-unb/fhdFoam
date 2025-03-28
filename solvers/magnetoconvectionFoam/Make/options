@@ -1,6 +1,5 @@
 EXE_INC = \
-    -I../buoyantBoussinesqSimpleFoam \
-    -I../../incompressible/pimpleFoam \
+    -IHModels/lnInclude \
     -I$(LIB_SRC)/sampling/lnInclude \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude \
@@ -13,6 +12,8 @@ EXE_INC = \
     -I$(LIB_SRC)/thermophysicalModels/radiation/lnInclude
 
 EXE_LIBS = \
+    -L$(FOAM_USER_LIBBIN) \
+    -lmagHModels \
     -lfiniteVolume \
     -lfvOptions \
     -lmeshTools \

@@ -60,6 +60,7 @@ Description
 #include "CorrectPhi.H"
 #include "fvOptions.H"
 #include "pimpleControl.H"
+#include "HModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -90,10 +91,6 @@ int main(int argc, char *argv[])
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-   #include "Heqn.H" 
-
-    volScalarField    H2over2 = pow(mag(H),2)/2;
-
     Info<< "\nStarting time loop\n" << endl;
 
     while (runTime.run())
@@ -101,7 +98,12 @@ int main(int argc, char *argv[])
         #include "readDyMControls.H"
         #include "CourantNo.H"
         #include "setDeltaT.H"
-   	#include "Heqn.H" 
+    
+        if(HPtr->HTemporalVariation())
+        {
+            HPtr->H(H);
+            H2over2 = pow(mag(H),2)/2;
+        }
    	
         ++runTime;
 

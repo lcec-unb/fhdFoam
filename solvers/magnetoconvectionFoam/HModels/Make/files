@@ -1,0 +1,7 @@
+HModel/HModel.C
+HModel/HModelNew.C
+constant/constant.C
+linear/linear.C
+sin/sin.C
+
+LIB = $(FOAM_USER_LIBBIN)/libmagHModels
