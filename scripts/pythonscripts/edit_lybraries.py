@@ -182,7 +182,7 @@ def changeFileDict_4(fluid_dict):
         
         ## corr
         fluid_data_lines.append("\n")
-        fluid_data_lines_2.append(f"                if ( pow(y-posy_{i},2) <= pow(((3*volume_{i}*(pow(10,-6)))/(4*pi)),(2.0/3.0)) - pow(x-posx_{i},2) )\n")
+        fluid_data_lines_2.append(f"                if ( pow(y-posy_{i},2) <= pow(((3*volume_{i}*(pow(10,-6.0)))/(4*pi)),(2.0/3.0)) - pow(x-posx_{i},2) )\n")
         fluid_data_lines_2.append("                {\n")
         fluid_data_lines_2.append("                        corr[i] = 1.;\n")
         fluid_data_lines_2.append("                }\n")
