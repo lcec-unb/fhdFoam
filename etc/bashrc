@@ -1,0 +1,29 @@
+#----------------------------------*-sh-*--------------------------------------
+# File
+#     etc/bashrc
+#
+# Description
+#     The file contain definition of variables needed 
+#     to configure enviroment.
+#
+#------------------------------------------------------------------------------
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )" 
+DIR=${DIR%/*} 
+#------------------------------------------------------------------------------
+
+################################################################################
+# START OF USER EDITABLE PART
+
+
+
+# END OF (NORMAL) USER EDITABLE PART 
+################################################################################
+
+# Location of the project installation 
+export p_scripts="${DIR}/scripts/pythonscripts"
+export mht_tutorials="${DIR}/tutorials/mhtFoam/GUI_2d_circular_tumor"
+export control_arc="${DIR}/tutorials/mhtFoam/GUI_2d_circular_tumor/system/controlDict"
+export T_arc="${DIR}/tutorials/mhtFoam/GUI_2d_circular_tumor/postProcessing/probes/0/T"
+export W_arc="${DIR}/tutorials/mhtFoam/GUI_2d_circular_tumor/postProcessing/probes/0/W"
+export ID_arc="${DIR}/tutorials/mhtFoam/GUI_2d_circular_tumor/0/ID"
+export corr_arc="${DIR}/tutorials/mhtFoam/GUI_2d_circular_tumor/0/corr"

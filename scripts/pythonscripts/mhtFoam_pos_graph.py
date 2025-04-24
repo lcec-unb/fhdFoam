@@ -12,8 +12,10 @@ class main_pos:
         # Obter o diretório do script
         script_dir = os.path.dirname(os.path.realpath(__file__))
         # Caminho para os arquivos de dados
-        file_path = os.path.join(script_dir, '../../tutorials/mhtFoam/2d_circular_tumour/postProcessing/probes/0/T')
-        file_path2 = os.path.join(script_dir, '../../tutorials/mhtFoam/2d_circular_tumour/postProcessing/probes/0/W')
+        T_arc = os.environ.get("T_arc")
+        W_arc = os.environ.get("W_arc")
+        file_path = T_arc
+        file_path2 = W_arc
 
 
         start_index = None
@@ -89,10 +91,11 @@ class main_pos:
         ynode = int(domain_info["ynode"])
 
         endtime = int(domain_info2["endtime"])
-
+        import os
+        mht_tutorials = os.environ.get("mht_tutorials")
         # Caminho para o arquivo de temperaturas
-        script_dir = os.path.dirname(__file__)  # Pega o diretório do script
-        file_path3 = os.path.join(script_dir, f'../../tutorials/mhtFoam/2d_circular_tumour/{endtime}/T')
+        script_dir = mht_tutorials
+        file_path3 = os.path.join(script_dir, f'{endtime}/T')
 
         # Ler os dados de temperatura do arquivo
         with open(file_path3, 'r') as file:

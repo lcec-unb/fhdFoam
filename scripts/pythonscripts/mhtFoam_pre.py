@@ -28,6 +28,7 @@ class Main_wind:
         self.altura_tela = altura_tela_1//3
         self.root_1.geometry(f'1200x1000+{self.largura_tela}+{self.altura_tela}')
     def interface(self):
+        import os
         ## Aqui deixa já aberto as seguintes funções
         self.define_titulo()
         self.botoes_main_wind()
@@ -36,6 +37,7 @@ class Main_wind:
         self.data_t = {"tumors": []}
         self.data_tmag = {"magnetic_fluid": []}
         self.jason_quantities = []
+        
     def define_titulo(self):
         """
         Função responsável pela construção da parte relativa ao título na interface
@@ -172,7 +174,7 @@ v 2.0"""
         self.autenticar = cttk.CTkButton(self.segundoContainer, text="Ok",
                            width=150,  # Ajustado para largura em pixels
                            height=40,command=self.gera_json_malha)
-        self.autenticar.pack(side=BOTTOM,padx=5,fill="none", expand=False)
+        self.autenticar.pack(side=BOTTOM,padx=5,pady=7,fill="none", expand=False)
         ######################
 
         ###Forms do time properties
@@ -209,7 +211,7 @@ v 2.0"""
         self.autenticarcontrol = cttk.CTkButton(self.segundoContainer_main, text="Ok",
                            width=150,  # Ajustado para largura em pixels
                            height=40,command=self.save_control)
-        self.autenticarcontrol.pack(side=BOTTOM,padx=5,fill="none", expand=False)
+        self.autenticarcontrol.pack(side=BOTTOM,padx=5,pady=7,fill="none", expand=False)
 
         #########################
 
@@ -269,7 +271,7 @@ v 2.0"""
         self.autenticar_field = cttk.CTkButton(self.segundoContainer_main_down, text="Ok",
                            width=150,  # Ajustado para largura em pixels
                            height=40,command=self.gera_json_field)
-        self.autenticar_field.pack(side=BOTTOM,padx=5,fill="none", expand=False)
+        self.autenticar_field.pack(side=BOTTOM,padx=5,pady=7,fill="none", expand=False)
 
         #####################################################################
 
@@ -320,13 +322,13 @@ v 2.0"""
         self.tumorbutton = cttk.CTkButton(self.middleContainer_sub, text="Ok",
                            width=150,  # Ajustado para largura em pixels
                            height=40,command=lambda: self.submit_tumor(tumor_count_num))
-        self.tumorbutton.pack(side=BOTTOM,padx=5)
+        self.tumorbutton.pack(side=BOTTOM,padx=5,pady=7)
 
         ## Botão de ok fluido magnético
         self.fluidbutton = cttk.CTkButton(self.middleContainer_sub2, text="Ok",
                            width=150,  # Ajustado para largura em pixels
                            height=40,command=lambda: self.submit_fluid(fluid_count_num))
-        self.fluidbutton.pack(side=BOTTOM,padx=5)
+        self.fluidbutton.pack(side=BOTTOM,padx=5,pady=7)
         
         ######################################################################
         
@@ -383,7 +385,7 @@ v 2.0"""
         self.confirmationfield_timebutton = cttk.CTkButton(self.confirmation_timefield, text="Ok",
                            width=150,  # Ajustado para largura em pixels
                            height=40,command=self.window_time_destroymesh)
-        self.confirmationfield_timebutton.pack(side=BOTTOM,padx=5)
+        self.confirmationfield_timebutton.pack(side=BOTTOM,padx=5,pady=7)
 
     #Função para fechar tela após o ok ser pressionado (tumores)
     def window_destroymesh(self):
@@ -431,7 +433,7 @@ v 2.0"""
         self.confirmationfieldbutton = cttk.CTkButton(self.confirmationfield, text="Ok",
                            width=150,  # Ajustado para largura em pixels
                            height=40,command=self.window_destroymeshfield)
-        self.confirmationfieldbutton.pack(side=BOTTOM,padx=5)
+        self.confirmationfieldbutton.pack(side=BOTTOM,padx=5,pady=7)
 
     ## Aqui gera o arquivo json para os dados do domínio de cálculo e malha
 
@@ -474,7 +476,7 @@ v 2.0"""
         self.confirmationmeshbutton = cttk.CTkButton(self.confirmationmesh, text="Ok",
                            width=150,  # Ajustado para largura em pixels
                            height=40,command=self.window_destroymesh)
-        self.confirmationmeshbutton.pack(side=BOTTOM,padx=5)
+        self.confirmationmeshbutton.pack(side=BOTTOM,padx=5,pady=7)
 
     # Tela que pergunta quantos tumores é definido aqui
     def tumors(self):
@@ -569,7 +571,7 @@ v 2.0"""
         self.autenticar_magfluid = cttk.CTkButton(self.fluid_window, text="Ok",
                            width=150,  # Ajustado para largura em pixels
                            height=40,command=lambda win=self.fluid_window, idx=index, total=fluid_count: self.gera_json_fluid(win, idx, total))
-        self.autenticar_magfluid.pack(side=BOTTOM,padx=5)
+        self.autenticar_magfluid.pack(side=BOTTOM,padx=5,pady=7)
 
         ##############################################
     ## Tela para coleta de info de tumor
@@ -657,7 +659,7 @@ v 2.0"""
         self.autenticar_tumor = cttk.CTkButton(self.tumor_window, text="Ok",
                            width=150,  # Ajustado para largura em pixels
                            height=40,command=lambda win=self.tumor_window, idx=index, total=tumor_count: self.gera_json_tumor(win, idx, total))
-        self.autenticar_tumor.pack(side=BOTTOM,padx=5)
+        self.autenticar_tumor.pack(side=BOTTOM,padx=5,pady=7)
     
     #Função associada à fechar as telas de entrada dos parâmetros dos tumores
     def window_destroy(self):
@@ -718,7 +720,7 @@ v 2.0"""
             self.confirmationbutton = cttk.CTkButton(self.confContainer1, text="Ok",
                            width=150,  # Ajustado para largura em pixels
                            height=40,command=self.window_destroy)
-            self.confirmationbutton.pack(side=LEFT,padx=5)
+            self.confirmationbutton.pack(side=LEFT,padx=5,pady=7)
         else:
             window.destroy()
 
@@ -766,7 +768,7 @@ v 2.0"""
             self.confirmationf_fbutton = cttk.CTkButton(self.confContainer1f, text="Ok",
                            width=150,  # Ajustado para largura em pixels
                            height=40,command=self.windowmag_destroy)
-            self.confirmationf_fbutton.pack(side=LEFT,padx=5)
+            self.confirmationf_fbutton.pack(side=LEFT,padx=5,pady=7)
         else:
             window.destroy()  
     def gera_setup(self):
@@ -774,7 +776,9 @@ v 2.0"""
     	# Gerar o setup é substituir os dados coletados nos respectivos arquivos
         import json
         import os
-        allpre_dir = "../../tutorials/mhtFoam/2d_circular_tumour"
+        p_scripts = os.environ.get("p_scripts")
+        mht_tutorials = os.environ.get("mht_tutorials")
+        allpre_dir = mht_tutorials
         # Muda o diretório de trabalho para o local do Allpre
         os.chdir(allpre_dir)
         # Limpa pasta e prepara a simulação copiando arquivos da pasta 0 e system de volta
@@ -787,7 +791,7 @@ v 2.0"""
 
         indexx=self.current_index+1
         indexx_f=self.current_index_f+1
-        base_dir = "../../../scripts/pythonscripts"
+        base_dir = p_scripts
         os.chdir(base_dir)
         # Construir os caminhos completos para cada arquivo JSON
         json_file_path1 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "inputDict_blockMeshDict.json")
@@ -898,7 +902,9 @@ v 2.0"""
         """
         Função utilizada para Iniciar simulação
         """
-        allpre_dir = "../../tutorials/mhtFoam/2d_circular_tumour"
+        import os
+        mht_tutorials = os.environ.get("mht_tutorials")
+        allpre_dir = mht_tutorials
         import os
         os.chdir(allpre_dir)
         os.system("./Allrun &")

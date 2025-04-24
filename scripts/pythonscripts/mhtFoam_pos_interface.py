@@ -310,8 +310,11 @@ class Main_wind_pos:
     def change_file(self):
         self.confirmation.destroy()
         # Carregar o arquivo controlDict
-        dir = os.path.dirname(os.path.abspath("../../tutorials/mhtFoam/2d_circular_tumour"))
-        control_dict_path = os.path.join(dir, "2d_circular_tumour/system/controlDict")
+        import os
+        p_scripts = os.environ.get("p_scripts")
+        mht_tutorials = os.environ.get("mht_tutorials")
+        control_arc = os.environ.get("control_arc")
+        control_dict_path = control_arc
 
         with open(control_dict_path, 'r') as file:
             control_dict = file.readlines()
@@ -340,8 +343,11 @@ class Main_wind_pos:
         self.postprocess()
     def postprocess(self):
         import subprocess
+        import os
+        p_scripts = os.environ.get("p_scripts")
+        mht_tutorials = os.environ.get("mht_tutorials")
         # Rodar o comando de pós-processamento
-        caso_dir = "../../tutorials/mhtFoam/2d_circular_tumour"
+        caso_dir = mht_tutorials
 
         # Mudar o diretório de trabalho para o diretório do caso
         os.chdir(caso_dir)
@@ -360,7 +366,9 @@ class Main_wind_pos:
     def rodar_grafico(self):
         print("Preparando tudo...")
         import subprocess
-        caso_dir1="../../../scripts/pythonscripts"
+        import os
+        p_scripts = os.environ.get("p_scripts")
+        caso_dir1 = p_scripts
         os.chdir(caso_dir1)
         try:
             # Rodar outro script Python

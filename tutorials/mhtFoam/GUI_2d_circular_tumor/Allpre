@@ -3,8 +3,10 @@
 . $WM_PROJECT_DIR/bin/tools/RunFunctions  
 #------------------------------------------------------------------------------
 
-cp -r 0.orig/ 0/
+restore0Dir
 
+cp -r ./system.orig ./system
+cp -r ./constant.orig ./constant
 
 #------------------------------------------------------------------------------
 
