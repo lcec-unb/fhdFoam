@@ -13,6 +13,13 @@ import numpy as np
 import json
 
 
+# === Patched: consistent JSON directory handling ===
+from pathlib import Path
+import os as _os  # ensure os is available at module scope
+HERE = Path(__file__).resolve().parent
+JSON_DIR = Path(_os.environ.get("MHT_JSON_DIR", HERE))
+JSON_DIR.mkdir(parents=True, exist_ok=True)
+# ====================================================
 class Main_wind:
     ## Abre a tela inicial e estabelece algumas informações a serem usadas no meio do código
     def __init__(self, root_1):
@@ -351,7 +358,7 @@ v 2.0"""
             #nonlocal fluid_count
             fluid_count = int(fluid_count_num.get())
             self.open_fluid_data_screens(fluid_count)
-            self.fluid_count.destroy()
+
             return fluid_count
 
     ## Aqui salva as informações temporais em arquivo json
@@ -364,7 +371,7 @@ v 2.0"""
         if timestep is not None:
             self.data["timestep"] = timestep
             
-        self.outJson3 = "inputDict_controlDict.json"
+        self.outJson3 = str(JSON_DIR / "inputDict_controlDict.json")
         self.jason_quantities.append(self.outJson3)
         ## Salva no jason
         with open(self.outJson3, "w") as arquivo:
@@ -409,7 +416,7 @@ v 2.0"""
         inputDict_fields_properties["volume_fraction"] = self.fi.get()
 
         json_string_m = json.dumps(inputDict_fields_properties, indent=4)
-        self.outJson_m="inputDict_mhtQuantities.json"
+        self.outJson_m = str(JSON_DIR / "inputDict_mhtQuantities.json")
         self.jason_quantities.append(self.outJson_m)
         
         with open(self.outJson_m,"w") as f:
@@ -453,7 +460,7 @@ v 2.0"""
         
         ## Salva no jason
         json_string = json.dumps(inputDict_blockMeshDict, indent=4)
-        self.outJson="inputDict_blockMeshDict.json"
+        self.outJson = str(JSON_DIR / "inputDict_blockMeshDict.json")
         self.jason_quantities.append(self.outJson)
         
         with open(self.outJson,"w") as f:
@@ -692,7 +699,7 @@ v 2.0"""
         #self.data_t.append(inputDict_ID)
         
         json_string = json.dumps(inputDict_ID, indent=4)
-        self.outJson2="inputDict_ID.json"
+        self.outJson2 = str(JSON_DIR / "inputDict_ID.json")
         self.jason_quantities.append(self.outJson2)
         
         #Abaixo fecha as janelas onde entramos com os dados dos tumores a medida que clica-se "Gerar Json"
@@ -740,7 +747,7 @@ v 2.0"""
         #self.data_t.append(inputDict_ID)
         
         json_string_f = json.dumps(inputDict_magflu, indent=4)
-        self.outJson3="inputDict_magflu.json"
+        self.outJson3 = str(JSON_DIR / "inputDict_magflu.json")
         self.jason_quantities.append(self.outJson3)
         
         #Abaixo fecha as janelas onde entramos com os dados dos tumores a medida que clica-se "Gerar Json"
@@ -785,9 +792,8 @@ v 2.0"""
         os.system("./Allclean")
         os.system("./Allpre")
         # Gera o json caso o usuario se esqueça
-        self.gera_json_tumor
-        self.gera_json_malha
-        self.gera_json_fluid
+
+
 
         indexx=self.current_index+1
         indexx_f=self.current_index_f+1

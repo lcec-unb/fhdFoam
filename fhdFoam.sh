@@ -3,7 +3,14 @@
 #
 #------------------------------------------------------------------------------
 
-echo "fhdFoam has the following solvers:"
+echo "*************************************"
+echo "*                                   *"
+echo "*  fhdFoam - OpenFOAM based solvers *"
+echo "*    for Ferrohydrodinamics (fhd)   *"
+echo "*                                   *"
+echo "*************************************"
+echo ""
+echo "     fhdFoam's current solvers:"
 echo ""
 echo "1 - mhtFoam"
 echo "2 - magnetoconvectionFoam"
