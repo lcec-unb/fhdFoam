@@ -101,7 +101,7 @@ This interface allows you to:
 📌 Output files are written directly into the OpenFOAM case.
 
 <p align="center">
-  <img src="../../figs/mhtstudio1.png" alt="Main window of the pre-processing GUI" width="500"/>
+  <img src="../../figs/mhtstudio1.png" alt="Main window of the pre-processing GUI" width="560"/>
 </p>
 
 <p align="center">
@@ -109,7 +109,7 @@ This interface allows you to:
 </p>
 
 <p align="center">
-  <img src="../../figs/mhtstudio3.png" alt="Configuration preview" width="500"/>
+  <img src="../../figs/mhtstudio3.png" alt="Configuration preview" width="400"/>
 </p>
 ---
 
@@ -137,7 +137,7 @@ The post‑processing interface allows you to:
 A real‑time progress window shows the **current simulation time being extracted**.
 
 <p align="center">
-  <img src="../../figs/mhtstudio4.png" alt="Main window of the post-processing GUI" width="500"/>
+  <img src="../../figs/mhtstudio4.png" alt="Main window of the post-processing GUI" width="560"/>
 </p>
 
 <p align="center">
@@ -145,7 +145,7 @@ A real‑time progress window shows the **current simulation time being extracte
 </p>
 
 <p align="center">
-  <img src="../../figs/mhtstudio7.png" alt="An example of the final temperature distribution for 3 interacting tumours" width="500"/>
+  <img src="../../figs/mhtstudio7.png" alt="An example of the final temperature distribution for 3 interacting tumours" width="480"/>
 </p>
 
 ---
