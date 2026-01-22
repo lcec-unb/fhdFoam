@@ -101,15 +101,15 @@ This interface allows you to:
 📌 Output files are written directly into the OpenFOAM case.
 
 <p align="center">
-  <img src="../../figs/mhtstudio1.png" alt="Main window of the pre-processing GUI" width="350"/>
+  <img src="../../figs/mhtstudio1.png" alt="Main window of the pre-processing GUI" width="500"/>
 </p>
 
 <p align="center">
-  <img src="../../figs/mhtstudio2.png" alt="Tumor and fluid injection data" width="350"/>
+  <img src="../../figs/mhtstudio2.png" alt="Tumor and fluid injection data" width="400"/>
 </p>
 
 <p align="center">
-  <img src="../../figs/mhtstudio3.png" alt="Configuration preview" width="350"/>
+  <img src="../../figs/mhtstudio3.png" alt="Configuration preview" width="500"/>
 </p>
 ---
 
@@ -137,15 +137,15 @@ The post‑processing interface allows you to:
 A real‑time progress window shows the **current simulation time being extracted**.
 
 <p align="center">
-  <img src="../../figs/mhtstudio4.png" alt="Main window of the post-processing GUI" width="350"/>
+  <img src="../../figs/mhtstudio4.png" alt="Main window of the post-processing GUI" width="500"/>
 </p>
 
 <p align="center">
-  <img src="../../figs/mhtstudio5.png" alt="Temperature at probe points example" width="350"/>
+  <img src="../../figs/mhtstudio6.png" alt="Temperature at probe points example" width="500"/>
 </p>
 
 <p align="center">
-  <img src="../../figs/mhtstudio5.png" alt="An example of the final temperature distribution for 3 interacting tumours" width="350"/>
+  <img src="../../figs/mhtstudio7.png" alt="An example of the final temperature distribution for 3 interacting tumours" width="500"/>
 </p>
 
 ---
