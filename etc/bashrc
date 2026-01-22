@@ -20,7 +20,7 @@ DIR=${DIR%/*}
 ################################################################################
 
 # Location of the project installation 
-export p_scripts="${DIR}/scripts/pythonscripts"
+export p_scripts="${DIR}/apps/mhtStudio"
 export mht_tutorials="${DIR}/tutorials/mhtFoam/GUI_2d_circular_tumor"
 export control_arc="${DIR}/tutorials/mhtFoam/GUI_2d_circular_tumor/system/controlDict"
 export T_arc="${DIR}/tutorials/mhtFoam/GUI_2d_circular_tumor/postProcessing/probes/0/T"

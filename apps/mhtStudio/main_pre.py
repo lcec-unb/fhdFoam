@@ -1,10 +1,19 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import simpledialog, messagebox, Tk, Frame, Label, LEFT, RIGHT, Button, Entry,font
+
 from edit_lybraries import  generate_dictionary_3, changeFileDict, changeFileDict_2,generate_dictionary_6
 from edit_lybraries import generate_dictionary_1, generate_dictionary_2,changeFileDict_6
 from edit_lybraries import generate_dictionary_4,changeFileDict_4,generate_dictionary_5
+
 import customtkinter as cttk
+
+cttk.set_appearance_mode("System")        # or "Light" / "Dark"
+cttk.set_default_color_theme("blue")      # optional but helps
+
+cttk.set_widget_scaling(1.0)
+cttk.set_window_scaling(1.0)
+
 from matplotlib.figure import Figure
 from matplotlib.patches import Ellipse
 from PIL import ImageTk
@@ -27,7 +36,6 @@ class Main_wind:
         self.root_1.title("mhtFoam")
         self.fontePadrao = ("Adobe Myungjo Std M", "11")
         self.fonteBotoes = ("Arial", "10")
-        cttk.set_appearance_mode("White")
         
         largura_tela_1 = self.root_1.winfo_screenwidth()
         altura_tela_1 = self.root_1.winfo_screenheight()
