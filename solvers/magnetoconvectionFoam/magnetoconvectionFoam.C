@@ -89,7 +89,21 @@ int main(int argc, char *argv[])
 
     turbulence->validate();
 
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+    Info<< "\nCalculating magnetic field H (stationary)\n" << endl;
+
+    // === CÁLCULO ÚNICO DO CAMPO MAGNÉTICO ===
+    HPtr->H(H);
+    H2over2 = 0.5*magSqr(H);
+
+    // escreve já no tempo 0
+    H.write();
+    H2over2.write();
+
+    Info<< "Magnetic field initialized\n" << endl;
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
 
@@ -98,52 +112,17 @@ int main(int argc, char *argv[])
         #include "readDyMControls.H"
         #include "CourantNo.H"
         #include "setDeltaT.H"
-    
-        if(HPtr->HTemporalVariation())
-        {
-            HPtr->H(H);
-            H2over2 = pow(mag(H),2)/2;
-        }
-   	
+
         ++runTime;
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-        // --- Pressure-velocity PIMPLE corrector loop
+    // --- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())
         {
-/*            if (pimple.firstIter() || moveMeshOuterCorrectors)
-            {
-                // Do any mesh changes
-                mesh.controlledUpdate();
-
-                if (mesh.changing())
-                {
-                    MRF.update();
-
-                    if (correctPhi)
-                    {
-                        // Calculate absolute flux
-                        // from the mapped surface velocity
-                        phi = mesh.Sf() & Uf();
-
-                        #include "correctPhi.H"
-
-                        // Make the flux relative to the mesh motion
-                        fvc::makeRelative(phi, U);
-                    }
-
-                    if (checkMeshCourantNo)
-                    {
-                        #include "meshCourantNo.H"
-                    }
-                }
-            }*/
-
             #include "UEqn.H"
             #include "TEqn.H"
 
-            // --- Pressure corrector loop
             while (pimple.correct())
             {
                 #include "pEqn.H"
@@ -154,12 +133,9 @@ int main(int argc, char *argv[])
                 laminarTransport.correct();
                 turbulence->correct();
             }
-	}
-
-//	#include "HEqn.H"
+        }
 
         runTime.write();
-
         runTime.printExecutionTime(Info);
     }
 
@@ -169,4 +145,3 @@ int main(int argc, char *argv[])
 }
 
 
-// ************************************************************************* //

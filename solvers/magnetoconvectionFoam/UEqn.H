@@ -13,7 +13,7 @@
       + turbulence->divDevReff(U)
      ==
         fvOptions(U)
-        + (mu0 / rho)*chi0*beta_m*(T - TRef)*fvc::grad(H2over2)
+        + (Foam::constant::electromagnetic::mu0/ rho)*chi0*beta_m*(T - TRef)*fvc::grad(H2over2)
     );
 
     UEqn.relax();

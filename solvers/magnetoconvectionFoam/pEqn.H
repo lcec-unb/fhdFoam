@@ -53,7 +53,8 @@
 
     #include "continuityErrs.H"
 
-    p = p_rgh + rhok*gh + (mu0/rho)*chi0*H2over2;
+    p = p_rgh + rhok*gh + (Foam::constant::electromagnetic::mu0
+/rho)*chi0*H2over2;
 
     if (p_rgh.needReference())
     {
@@ -63,6 +64,7 @@
             p.dimensions(),
             pRefValue - getRefCellValue(p, pRefCell)
         );
-        p_rgh = p - rhok*gh - (mu0/rho)*chi0*H2over2;
+        p_rgh = p - rhok*gh - (Foam::constant::electromagnetic::mu0
+/rho)*chi0*H2over2;
     }
 }
