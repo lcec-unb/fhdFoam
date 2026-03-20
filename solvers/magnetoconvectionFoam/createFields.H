@@ -127,8 +127,8 @@ mesh.setFluxRequired(p_rgh.name());
 
 
 //*****************************************************//
+Info<< "Creating magnetic field H\n" << endl;
 
-Info<< "Reading field H\n" << endl;
 volVectorField H
 (
     IOobject
@@ -136,11 +136,38 @@ volVectorField H
         "H",
         runTime.timeName(),
         mesh,
-        IOobject::MUST_READ,
+        IOobject::NO_READ,
         IOobject::AUTO_WRITE
     ),
-    mesh
+    mesh,
+    dimensionedVector
+    (
+        "zero",
+        dimensionSet(0, -1, 0, 0, 0, 1, 0), // A/m
+        vector::zero
+    )
 );
+
+volScalarField H2over2
+(
+    IOobject
+    (
+        "H2over2",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh,
+    dimensionedScalar
+    (
+        "zero",
+        dimensionSet(0, -2, 0, 0, 0, 2, 0),
+        0.0
+    )
+);
+
+Info<< "Reading magnetic properties\n" << endl;
 
 IOdictionary magneticProperties
 (
@@ -149,29 +176,15 @@ IOdictionary magneticProperties
         "magneticProperties",
         runTime.constant(),
         mesh,
-        IOobject::MUST_READ_IF_MODIFIED,
+        IOobject::MUST_READ,
         IOobject::NO_WRITE
     )
 );
 
-// Create the H model from the dictionary "HProperties"
 autoPtr<HModel> HPtr = HModel::New(magneticProperties, mesh);
 
-// Update the field H:
-HPtr->H(H);
-volScalarField    H2over2 = pow(mag(H),2)/2;
+const dictionary& magFluidDict =
+    magneticProperties.subDict("magneticFluid");
 
-dimensionedScalar mu0("mu0", dimensionSet(1,1,-2,0,0,-2,0), 1.256e-6); 
-
-// Pyromagnetic coefficient [1/K]
-dimensionedScalar beta_m("beta_m", dimless/dimTemperature, magneticProperties);
-
-// Reference susceptibility 
-dimensionedScalar chi0("chi0", dimless, magneticProperties);
-
-// Maximum applied field
-dimensionedScalar Hmax("Hmax", dimensionSet(0,-1,0,0,0,1,0), magneticProperties);
-
-// Magnet height
-dimensionedScalar mag_height("mag_height", dimensionSet(0,1,0,0,0,0,0), magneticProperties);
-
+dimensionedScalar beta_m("beta_m", dimless/dimTemperature, magFluidDict);
+dimensionedScalar chi0("chi0", dimless, magFluidDict);
