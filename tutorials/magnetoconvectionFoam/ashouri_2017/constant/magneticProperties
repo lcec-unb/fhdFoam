@@ -1,0 +1,84 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2312                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      magneticProperties;
+}
+
+//--------------------------------------------------
+// Magnetic field model
+//--------------------------------------------------
+
+HModel rectangularMagnet;
+
+//--------------------------------------------------
+// Magnetic convection model selector
+//--------------------------------------------------
+
+// true  -> use a Boussinesq-like pyromagnetic model
+// false -> use a Langevin-based magnetization model
+useBoussinesqTM false;
+
+//--------------------------------------------------
+// Rectangular magnet parameters
+//--------------------------------------------------
+
+rectangularMagnetCoeffs
+{
+    // Maximum magnetic field intensity [A/m]
+    H0          9.55e5;
+
+    // Magnet center [m]
+    center      (2.5e-2 2.5e-2 0);
+
+    // Magnet dimensions [m]
+    size        (1.0e-2 1.0e-2 1e-2);
+
+    // Field direction
+    polarity    1;
+
+    // Numerical regularization
+    eps         1e-12;
+}
+
+//--------------------------------------------------
+// Magnetic material parameters (fluid)
+//--------------------------------------------------
+
+magneticFluid
+{
+    //--------------------------------------------------
+    // Current Boussinesq-like model
+    //--------------------------------------------------
+
+    // Pyromagnetic coefficient [1/K]
+    beta_m      [0 0 0 -1 0 0 0] 2.0e-4;
+
+    // Magnetic susceptibility [-]
+    chi0        0.1;
+
+    //--------------------------------------------------
+    // Langevin-based model
+    //--------------------------------------------------
+
+    // Saturation magnetization [A/m]
+    Ms          [0 -1 0 0 0 1 0] 8.33e2;
+
+    // Magnetic moment of particle [A.m2]
+    mParticle   [0 2 0 0 0 1 0] 2.07e-19;
+
+    // Boltzmann constant [J/K]
+    kB          [1 2 -2 -1 0 0 0] 1.380649e-23;
+
+    // Minimum value imposed on alphaL to avoid singularity
+    alphaMin    1e-12;
+}

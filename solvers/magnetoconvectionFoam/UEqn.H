@@ -1,39 +1,41 @@
-    // Solve the momentum equation
+//==============================================================================
+// Momentum equation
+//==============================================================================
 
-    MRF.correctBoundaryVelocity(U);
+MRF.correctBoundaryVelocity(U);
 
+// Update magnetic body force according to selected model
+#include "updateMagneticForce.H"
 
-//    volScalarField    modH = mag(H);
-//    volScalarField    H2over2 = pow(mag(H),2)/2;
+fvVectorMatrix UEqn
+(
+    fvm::ddt(U)
+  + fvm::div(phi, U)
+  + MRF.DDt(U)
+  + turbulence->divDevReff(U)
+ ==
+    fvOptions(U)
+  + magneticForce
+);
 
-    fvVectorMatrix UEqn
+UEqn.relax();
+
+fvOptions.constrain(UEqn);
+
+if (pimple.momentumPredictor())
+{
+    solve
     (
-        fvm::ddt(U) + fvm::div(phi, U)
-      + MRF.DDt(U)
-      + turbulence->divDevReff(U)
+        UEqn
      ==
-        fvOptions(U)
-        + (Foam::constant::electromagnetic::mu0/ rho)*chi0*beta_m*(T - TRef)*fvc::grad(H2over2)
+        fvc::reconstruct
+        (
+            (
+              - ghf*fvc::snGrad(rhok)
+              - fvc::snGrad(p_rgh)
+            )*mesh.magSf()
+        )
     );
 
-    UEqn.relax();
-
-    fvOptions.constrain(UEqn);
-
-    if (pimple.momentumPredictor())
-    {
-        solve
-        (
-            UEqn
-         ==
-            fvc::reconstruct
-            (
-                (
-                  - ghf*fvc::snGrad(rhok)
-                  - fvc::snGrad(p_rgh)
-                )*mesh.magSf()
-            )
-        );
-
-        fvOptions.correct(U);
-    }
+    fvOptions.correct(U);
+}

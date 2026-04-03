@@ -1,0 +1,129 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2506                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+
+//==============================================================================
+// Main run control
+//==============================================================================
+
+application     magnetoconvectionFoam;
+
+startFrom       startTime;
+startTime       0;
+
+stopAt          endTime;
+endTime         1500;
+
+//==============================================================================
+// Time-step control
+//==============================================================================
+
+deltaT          0.1;
+
+adjustTimeStep  yes;
+maxCo           1.0;
+maxDeltaT       0.1;
+minDeltaT       1e-5;
+
+//==============================================================================
+// Write control
+//==============================================================================
+
+writeControl    adjustableRunTime;
+writeInterval   2;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+writePrecision  6;
+writeCompression off;
+
+timeFormat      general;
+timePrecision   6;
+
+runTimeModifiable true;
+
+//==============================================================================
+// Libraries
+//==============================================================================
+
+libs
+(
+    "libmagHModels.so"
+);
+
+//==============================================================================
+// Function objects
+//==============================================================================
+
+functions
+{
+    gradT
+    {
+        type                grad;
+        libs                ("fieldFunctionObjects");
+        field               T;
+        result              gradT;
+
+        enabled             true;
+        log                 true;
+
+        executeControl      writeTime;
+        writeControl        writeTime;
+    }
+
+    gradT_leftWall_avg
+    {
+        type                surfaceFieldValue;
+        libs                ("fieldFunctionObjects");
+
+        fields              (gradT);
+        operation           areaNormalAverage;
+        regionType          patch;
+        name                leftWall;
+
+        writeFields         false;
+        writeToFile         true;
+        enabled             true;
+        log                 true;
+        scalingFactor       1.0;
+        writePrecision      8;
+
+        executeControl      writeTime;
+        writeControl        writeTime;
+    }
+
+    gradT_rightWall_avg
+    {
+        type                surfaceFieldValue;
+        libs                ("fieldFunctionObjects");
+
+        fields              (gradT);
+        operation           areaNormalAverage;
+        regionType          patch;
+        name                rightWall;
+
+        writeFields         false;
+        writeToFile         true;
+        enabled             true;
+        log                 true;
+        scalingFactor       1.0;
+        writePrecision      8;
+
+        executeControl      writeTime;
+        writeControl        writeTime;
+    }
+}

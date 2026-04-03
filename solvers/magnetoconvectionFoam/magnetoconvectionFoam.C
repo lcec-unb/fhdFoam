@@ -25,7 +25,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    fhdFoam (ex buoyantBoussinesqPimpleFoam)
+    magnetoconvectionFoam
 
 Group
     grpHeatTransferSolvers
@@ -34,21 +34,18 @@ Description
     Transient solver for buoyant, turbulent flow of incompressible fluids,
     with optional mesh motion and mesh topology changes.
 
-    Uses the Boussinesq approximation:
-    \f[
-        rho_{k} = 1 - beta(T - T_{ref})
-    \f]
+    The solver supports two magnetic-convection models:
 
-    where:
-        \f$ rho_{k} \f$ = the effective (driving) kinematic density
-        beta = thermal expansion coefficient [1/K]
-        T = temperature [K]
-        \f$ T_{ref} \f$ = reference temperature [K]
+    1) Boussinesq-like pyromagnetic approximation
+       Magnetic force proportional to:
+           chi0*beta_m*(T - TRef)*grad(H^2/2)
 
-    Valid when:
-    \f[
-        \frac{beta(T - T_{ref})}{rho_{ref}} << 1
-    \f]
+    2) Langevin-based magnetization model
+       Magnetic force proportional to:
+           M*grad(|H|)
+
+    The externally imposed magnetic field H is computed only once at the
+    beginning of the simulation through the selected HModel.
 
 \*---------------------------------------------------------------------------*/
 
@@ -68,10 +65,10 @@ int main(int argc, char *argv[])
 {
     argList::addNote
     (
-        "Transient solver for buoyant, turbulent flow"
-        " of incompressible fluids, with optional mesh"
-        " motion and mesh topology changes.\n"
-        "Uses the Boussinesq approximation."
+        "Transient solver for buoyant, turbulent flow of incompressible fluids, "
+        "with optional mesh motion and mesh topology changes.\n"
+        "Supports both a Boussinesq-like pyromagnetic model and a Langevin-based "
+        "magnetic convection model."
     );
 
     #include "postProcess.H"
@@ -89,19 +86,23 @@ int main(int argc, char *argv[])
 
     turbulence->validate();
 
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nCalculating magnetic field H (stationary)\n" << endl;
 
-    // === CÁLCULO ÚNICO DO CAMPO MAGNÉTICO ===
+    //--------------------------------------------------------------------------
+    // Compute imposed magnetic field only once
+    //--------------------------------------------------------------------------
+
     HPtr->H(H);
     H2over2 = 0.5*magSqr(H);
+    Hmag = mag(H);
 
-    // escreve já no tempo 0
-    H.write();
-    H2over2.write();
+    #include "updateMagneticForce.H"
+    runTime.write();
 
-    Info<< "Magnetic field initialized\n" << endl;
+    Info<< "Magnetic fields initialized\n" << endl;
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -117,7 +118,7 @@ int main(int argc, char *argv[])
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-    // --- Pressure-velocity PIMPLE corrector loop
+        //--- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())
         {
             #include "UEqn.H"
@@ -135,7 +136,15 @@ int main(int argc, char *argv[])
             }
         }
 
-        runTime.write();
+        //----------------------------------------------------------------------
+        // Write fields only at standard OpenFOAM write times
+        //----------------------------------------------------------------------
+
+        if (runTime.writeTime())
+        {
+            runTime.write();
+        }
+
         runTime.printExecutionTime(Info);
     }
 
@@ -143,5 +152,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
-

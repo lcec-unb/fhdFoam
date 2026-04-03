@@ -1,5 +1,9 @@
 Info<< "Reading thermophysical properties\n" << endl;
 
+//==============================================================================
+// Primary solution fields
+//==============================================================================
+
 Info<< "Reading field T\n" << endl;
 volScalarField T
 (
@@ -44,7 +48,15 @@ volVectorField U
 
 #include "createPhi.H"
 
+//==============================================================================
+// Transport properties
+//==============================================================================
+
 #include "readTransportProperties.H"
+
+//==============================================================================
+// Turbulence model
+//==============================================================================
 
 Info<< "Creating turbulence model\n" << endl;
 autoPtr<incompressible::turbulenceModel> turbulence
@@ -52,7 +64,11 @@ autoPtr<incompressible::turbulenceModel> turbulence
     incompressible::turbulenceModel::New(U, phi, laminarTransport)
 );
 
-// Kinematic density for buoyancy force
+//==============================================================================
+// Thermal buoyancy auxiliary field
+//==============================================================================
+
+// Kinematic density used in the standard thermal Boussinesq buoyancy term
 volScalarField rhok
 (
     IOobject
@@ -64,7 +80,10 @@ volScalarField rhok
     1.0 - beta*(T - TRef)
 );
 
-// kinematic turbulent thermal thermal conductivity m2/s
+//==============================================================================
+// Turbulent thermal diffusivity
+//==============================================================================
+
 Info<< "Reading field alphat\n" << endl;
 volScalarField alphat
 (
@@ -79,11 +98,13 @@ volScalarField alphat
     mesh
 );
 
+//==============================================================================
+// Gravity and hydrostatic pressure support
+//==============================================================================
 
 #include "readGravitationalAcceleration.H"
 #include "readhRef.H"
 #include "gh.H"
-
 
 volScalarField p
 (
@@ -95,11 +116,12 @@ volScalarField p
         IOobject::NO_READ,
         IOobject::AUTO_WRITE
     ),
-    p_rgh + rhok*gh// + (mu0/rho)*chi0*H2over2
+    p_rgh + rhok*gh
 );
 
 label pRefCell = 0;
 scalar pRefValue = 0.0;
+
 setRefCell
 (
     p,
@@ -121,12 +143,18 @@ if (p_rgh.needReference())
 
 mesh.setFluxRequired(p_rgh.name());
 
+//==============================================================================
+// Auxiliary models
+//==============================================================================
+
 #include "createMRF.H"
 #include "createIncompressibleRadiationModel.H"
 #include "createFvOptions.H"
 
+//==============================================================================
+// Imposed magnetic field H
+//==============================================================================
 
-//*****************************************************//
 Info<< "Creating magnetic field H\n" << endl;
 
 volVectorField H
@@ -137,13 +165,14 @@ volVectorField H
         runTime.timeName(),
         mesh,
         IOobject::NO_READ,
-        IOobject::AUTO_WRITE
+        IOobject::AUTO_WRITE,
+        true
     ),
     mesh,
     dimensionedVector
     (
         "zero",
-        dimensionSet(0, -1, 0, 0, 0, 1, 0), // A/m
+        dimensionSet(0, -1, 0, 0, 0, 1, 0),   // A/m
         vector::zero
     )
 );
@@ -156,16 +185,21 @@ volScalarField H2over2
         runTime.timeName(),
         mesh,
         IOobject::NO_READ,
-        IOobject::AUTO_WRITE
+        IOobject::AUTO_WRITE,
+        true
     ),
     mesh,
     dimensionedScalar
     (
         "zero",
-        dimensionSet(0, -2, 0, 0, 0, 2, 0),
+        dimensionSet(0, -2, 0, 0, 0, 2, 0),   // (A/m)^2
         0.0
     )
 );
+
+//==============================================================================
+// Magnetic properties dictionary and magnetic-field model
+//==============================================================================
 
 Info<< "Reading magnetic properties\n" << endl;
 
@@ -183,8 +217,8 @@ IOdictionary magneticProperties
 
 autoPtr<HModel> HPtr = HModel::New(magneticProperties, mesh);
 
-const dictionary& magFluidDict =
-    magneticProperties.subDict("magneticFluid");
+//==============================================================================
+// Magnetic convection model parameters and auxiliary magnetic fields
+//==============================================================================
 
-dimensionedScalar beta_m("beta_m", dimless/dimTemperature, magFluidDict);
-dimensionedScalar chi0("chi0", dimless, magFluidDict);
+#include "createMagneticFields.H"

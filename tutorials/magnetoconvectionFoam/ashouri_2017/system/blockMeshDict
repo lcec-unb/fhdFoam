@@ -1,0 +1,242 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2506                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+
+//==============================================================================
+// Geometric parameters
+//==============================================================================
+
+// Outer square dimensions
+Lx 0.05;
+Ly 0.05;
+
+// Center of the domain
+xc 0.025;
+yc 0.025;
+
+// Inner square side length
+a  0.01;
+
+// Extrusion thickness for 2D case
+z0 0.0;
+z1 0.001;
+
+//==============================================================================
+// Derived coordinates
+//==============================================================================
+
+x0 0.0;
+x1 #calc "$xc - $a/2.0";
+x2 #calc "$xc + $a/2.0";
+x3 $Lx;
+
+y0 0.0;
+y1 #calc "$yc - $a/2.0";
+y2 #calc "$yc + $a/2.0";
+y3 $Ly;
+
+//==============================================================================
+// Mesh resolution
+//==============================================================================
+
+// Number of cells in each strip
+NxL 80;
+NxC 60;
+NxR 80;
+
+NyB 80;
+NyC 60;
+NyT 80;
+
+// Single cell in z for 2D simulation
+Nz 1;
+
+//==============================================================================
+// Grading parameters
+//==============================================================================
+
+// Refine towards the obstacle:
+// - left blocks: smaller cells near x1  -> grading > 1
+// - right blocks: smaller cells near x2 -> grading < 1
+// - bottom blocks: smaller cells near y1 -> grading > 1
+// - top blocks: smaller cells near y2    -> grading < 1
+
+gxL 0.2;
+gxC 1;
+gxR 5;
+
+gyB 0.2;
+gyC 1;
+gyT 5;
+
+convertToMeters 1.0;
+
+vertices
+(
+    // z = z0
+    ($x0 $y0 $z0)   //  0
+    ($x1 $y0 $z0)   //  1
+    ($x2 $y0 $z0)   //  2
+    ($x3 $y0 $z0)   //  3
+
+    ($x0 $y1 $z0)   //  4
+    ($x1 $y1 $z0)   //  5
+    ($x2 $y1 $z0)   //  6
+    ($x3 $y1 $z0)   //  7
+
+    ($x0 $y2 $z0)   //  8
+    ($x1 $y2 $z0)   //  9
+    ($x2 $y2 $z0)   // 10
+    ($x3 $y2 $z0)   // 11
+
+    ($x0 $y3 $z0)   // 12
+    ($x1 $y3 $z0)   // 13
+    ($x2 $y3 $z0)   // 14
+    ($x3 $y3 $z0)   // 15
+
+    // z = z1
+    ($x0 $y0 $z1)   // 16
+    ($x1 $y0 $z1)   // 17
+    ($x2 $y0 $z1)   // 18
+    ($x3 $y0 $z1)   // 19
+
+    ($x0 $y1 $z1)   // 20
+    ($x1 $y1 $z1)   // 21
+    ($x2 $y1 $z1)   // 22
+    ($x3 $y1 $z1)   // 23
+
+    ($x0 $y2 $z1)   // 24
+    ($x1 $y2 $z1)   // 25
+    ($x2 $y2 $z1)   // 26
+    ($x3 $y2 $z1)   // 27
+
+    ($x0 $y3 $z1)   // 28
+    ($x1 $y3 $z1)   // 29
+    ($x2 $y3 $z1)   // 30
+    ($x3 $y3 $z1)   // 31
+);
+
+blocks
+(
+    // Bottom row
+    hex ( 0  1  5  4 16 17 21 20) ($NxL $NyB $Nz) simpleGrading ($gxL $gyB 1)
+    hex ( 1  2  6  5 17 18 22 21) ($NxC $NyB $Nz) simpleGrading ($gxC $gyB 1)
+    hex ( 2  3  7  6 18 19 23 22) ($NxR $NyB $Nz) simpleGrading ($gxR $gyB 1)
+
+    // Middle row
+    hex ( 4  5  9  8 20 21 25 24) ($NxL $NyC $Nz) simpleGrading ($gxL $gyC 1)
+    hex ( 6  7 11 10 22 23 27 26) ($NxR $NyC $Nz) simpleGrading ($gxR $gyC 1)
+
+    // Top row
+    hex ( 8  9 13 12 24 25 29 28) ($NxL $NyT $Nz) simpleGrading ($gxL $gyT 1)
+    hex ( 9 10 14 13 25 26 30 29) ($NxC $NyT $Nz) simpleGrading ($gxC $gyT 1)
+    hex (10 11 15 14 26 27 31 30) ($NxR $NyT $Nz) simpleGrading ($gxR $gyT 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    leftWall
+    {
+        type wall;
+        faces
+        (
+            (0 4 20 16)
+            (4 8 24 20)
+            (8 12 28 24)
+        );
+    }
+
+    rightWall
+    {
+        type wall;
+        faces
+        (
+            (3 19 23 7)
+            (7 23 27 11)
+            (11 27 31 15)
+        );
+    }
+
+    bottomWall
+    {
+        type wall;
+        faces
+        (
+            (0 16 17 1)
+            (1 17 18 2)
+            (2 18 19 3)
+        );
+    }
+
+    topWall
+    {
+        type wall;
+        faces
+        (
+            (12 13 29 28)
+            (13 14 30 29)
+            (14 15 31 30)
+        );
+    }
+
+    squareObstacle
+    {
+        type wall;
+        faces
+        (
+            (5 21 25 9)
+            (6 10 26 22)
+            (5 6 22 21)
+            (9 25 26 10)
+        );
+    }
+
+    frontandback
+    {
+        type empty;
+        faces
+        (
+            (0 1 5 4)
+            (1 2 6 5)
+            (2 3 7 6)
+
+            (4 5 9 8)
+            (6 7 11 10)
+
+            (8 9 13 12)
+            (9 10 14 13)
+            (10 11 15 14)
+
+            (16 20 21 17)
+            (17 21 22 18)
+            (18 22 23 19)
+
+            (20 24 25 21)
+            (22 26 27 23)
+
+            (24 28 29 25)
+            (25 29 30 26)
+            (26 30 31 27)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);

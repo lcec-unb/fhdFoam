@@ -1,0 +1,59 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2312                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default         Euler;   // first-order robusto; depois pode testar backward
+}
+
+gradSchemes
+{
+    default         leastSquares;   // mais estável que Gauss linear em malha tet
+}
+
+divSchemes
+{
+    default         none;
+
+    div(phi,U)      bounded Gauss upwind;       // robusto; pode trocar para linearUpwind mais tarde
+    div(phi,T)      bounded Gauss upwind;
+
+    turbulence      bounded Gauss upwind;
+    div(phi,k)      $turbulence;
+    div(phi,epsilon) $turbulence;
+    div(phi,R)      $turbulence;
+    div(R)          Gauss linear;
+
+    div((nuEff*dev2(T(grad(U))))) Gauss linear;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;   // correção da não-ortogonalidade
+}
+
+interpolationSchemes
+{
+    default         linear;   // OK
+}
+
+snGradSchemes
+{
+    default         corrected;   // ativa correção de não-ortogonalidade
+}
+
+// ************************************************************************* //
+
