@@ -5,6 +5,7 @@ constant/constant.C
 linear/linear.C
 sin/sin.C
 rectangularMagnet/rectangularMagnet.C
+halbachArray/halbachArray.C
 
 LIB = $(FOAM_USER_LIBBIN)/libmagHModels
 
