@@ -80,7 +80,8 @@ public:
 
     //- Destructor
     virtual ~rectangularMagnet();
-
+    //- Field per unit magnetization along the local +y axis a and b are half-width and half-height of the magnet
+    static vector unitField(scalar x, scalar y, scalar a, scalar b);
     // Member Functions
         virtual void H(volVectorField& HField);
 };
